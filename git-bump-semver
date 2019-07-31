@@ -1,0 +1,12 @@
+#!/bin/bash
+CURRENT=$(git tag --sort=-version:refname | head -n1)
+NEW=$(echo ${CURRENT} | awk -F. '{print $1"."$2"."$3+1}')
+
+read -p "Bump version ${CURRENT} -> ${NEW}? [Y/n] " -n 1 -r
+if [[ ! $REPLY =~ ^[Nn]$ ]]
+then
+	git tag ${NEW}
+	echo Tag created
+else
+	echo Aborted
+fi
